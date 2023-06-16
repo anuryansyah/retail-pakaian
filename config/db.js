@@ -1,6 +1,11 @@
 const mongoose = require('mongoose')
+require('dotenv').config()
 
-const uri = 'mongodb+srv://arisda:qeYLGTMkaWWvOreD@retail-tubes.e6k9ayj.mongodb.net/?retryWrites=true&w=majority'
+const dbName = process.env.DB_NAME
+const username = process.env.DB_USERNAME
+const password = process.env.DB_PASSWORD
+
+const uri = `mongodb+srv://${username}:${password}@${dbName}.e6k9ayj.mongodb.net/?retryWrites=true&w=majority`
 
 const connDB = () => {
   mongoose.connect(uri)
