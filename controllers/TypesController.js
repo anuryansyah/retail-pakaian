@@ -29,25 +29,26 @@ exports.getType = async (req, res) => {
   } catch(err) {
     res.status(404).json({
       success: false,
-      message: 'Data tidak ditemukan',
+      message: err.message,
     })
   }
 }
 
 exports.addType = async (req, res) => {
   try {
-    const type = new TypesModel(req.body)
+    const type = new TypesModel({
+      name: req.body.name
+    })
 
-    if(await type.save()) {
-      res.status(201).json({
-        success: true,
-        message: 'Tipe berhasil ditambahkan',
-        data: type,
-      })
-    }
+    await type.save()
 
+    res.status(201).json({
+      success: true,
+      message: 'Tipe berhasil ditambahkan',
+      data: type,
+    })
   } catch(err) {
-    res.status(500).json({
+    res.status(400).json({
       success: false,
       message: err.message,
     })
@@ -59,28 +60,18 @@ exports.updateType = async (req, res) => {
     const id = req.params.id
     const data = req.body
 
-    // Validasi data
-    if (Object.keys(data).length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Tolong isi semua field',
-      })
-    }
-
     // Update data
     const updateData = await TypesModel.findByIdAndUpdate(id, data, { new: true })
 
-    if(updateData) {
-      res.status(200).json({
-        success: true,
-        message: updateData,
-      })
-    }
-    
+    res.status(201).json({
+      success: true,
+      message: 'Data berhasil diubah',
+      daata: updateData
+    })    
   } catch (err) {
-    res.status(404).json({
+    res.status(500).json({
       success: false,
-      message: 'Data tidak ditemukan',
+      message: err.message,
     })
   }
 }
@@ -91,16 +82,22 @@ exports.deleteType = async (req, res) => {
 
     const deleteData = await TypesModel.findByIdAndDelete(id)
 
-    if(deleteData) {
-      res.status(200).json({
-        success: true,
-        message: 'Type berhasil dihapus',
+    if(!deleteData) {
+      res.status(404).json({
+        success: false,
+        message: 'Data tidak ditemukan',
       })
     }
+
+    res.status(200).json({
+      success: true,
+      message: 'Data berhasil dihapus',
+    })
+
   } catch(err) {
-    res.status(404).json({
+    res.status(500).json({
       success: false,
-      message: 'Data tidak ditemukan',
+      message: err.message,
     })
   }
 }
