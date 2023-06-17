@@ -3,7 +3,8 @@ const bodyParser = require('body-parser')
 // IMPORT DB
 const connDB = require('./config/db')
 // IMPORT ROUTE
-const typesRoute = require('./routes/TypesRoute')
+const TypeRoute = require('./routes/TypeRoute')
+const AuthRoute = require('./routes/AuthRoute')
 
 // PORT
 const port = 3000
@@ -21,7 +22,8 @@ app.get('/', (req, res) => {
   })
 })
 
-app.use(typesRoute)
+app.use(TypeRoute)
+app.use(AuthRoute)
 
 app.listen(port, () => {
   console.log('server running on port: ' + port)
