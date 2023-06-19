@@ -1,13 +1,12 @@
-const TypesModel = require("../models/TypesModel");
+const BrandModel = require("../models/BrandModel");
 
-exports.getAllTypes = async (req, res) => {
+exports.getAllBrands = async (req, res) => {
   try {
-    // Ngambil semua data dari model
-    const typesData = await TypesModel.find();
+    const brandsData = await BrandModel.find();
 
     res.status(200).json({
       success: true,
-      data: typesData,
+      data: brandsData,
     });
   } catch (err) {
     res.status(500).json({
@@ -17,14 +16,14 @@ exports.getAllTypes = async (req, res) => {
   }
 };
 
-exports.getType = async (req, res) => {
+exports.getBrand = async (req, res) => {
   try {
     const id = req.params.id;
-    const typeData = await TypesModel.findById(id);
+    const brandData = await BrandModel.findById(id);
 
     res.status(200).json({
       success: true,
-      data: typeData,
+      data: brandData,
     });
   } catch (err) {
     res.status(404).json({
@@ -34,18 +33,20 @@ exports.getType = async (req, res) => {
   }
 };
 
-exports.addType = async (req, res) => {
+exports.addBrand = async (req, res) => {
   try {
-    const type = new TypesModel({
+    const brand = new BrandModel({
       name: req.body.name,
+      email: req.body.email,
+      phone: req.body.phone,
     });
 
-    await type.save();
+    await brand.save();
 
     res.status(201).json({
       success: true,
-      message: "Tipe berhasil ditambahkan",
-      data: type,
+      message: "Brand berhasil ditambahkan",
+      data: brand,
     });
   } catch (err) {
     res.status(400).json({
@@ -55,13 +56,12 @@ exports.addType = async (req, res) => {
   }
 };
 
-exports.updateType = async (req, res) => {
+exports.updateBrand = async (req, res) => {
   try {
     const id = req.params.id;
     const data = req.body;
 
-    // Update data
-    const updateData = await TypesModel.findByIdAndUpdate(id, data, { new: true });
+    const updateData = await BrandModel.findByIdAndUpdate(id, data, { new: true });
 
     res.status(201).json({
       success: true,
@@ -76,16 +76,17 @@ exports.updateType = async (req, res) => {
   }
 };
 
-exports.deleteType = async (req, res) => {
+exports.deleteBrand = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const deleteData = await TypesModel.findByIdAndDelete(id);
+    const deleteData = await BrandModel.findByIdAndDelete(id);
 
     if (!deleteData) {
       res.status(404).json({
         success: false,
         message: "Data tidak ditemukan",
+        S,
       });
     }
 
