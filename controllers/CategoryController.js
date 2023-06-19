@@ -1,13 +1,12 @@
-const TypeModel = require('../models/TypeModel')
+const CategoryModel = require('../models/CategoryModel')
 
-exports.getAllType = async (req, res) => {
+exports.getAllCategory = async (req, res) => {
   try {
-    // Ngambil semua data dari model
-    const typesData = await TypeModel.find()
+    const categoriesData = await CategoryModel.find()
 
     res.status(200).json({
       success: true,
-      data: typesData,
+      data: categoriesData,
     })
   } catch(err) {
     res.status(500).json({
@@ -17,14 +16,14 @@ exports.getAllType = async (req, res) => {
   }
 }
 
-exports.getType = async (req, res) => {
+exports.getCategory = async (req, res) => {
   try {
     const id = req.params.id
-    const typeData = await TypeModel.findById(id)
+    const categoryData = await CategoryModel.findById(id)
 
     res.status(200).json({
       success: true,
-      data: typeData,
+      data: categoryData,
     })
   } catch(err) {
     res.status(404).json({
@@ -34,18 +33,18 @@ exports.getType = async (req, res) => {
   }
 }
 
-exports.addType = async (req, res) => {
+exports.addCategory = async (req, res) => {
   try {
-    const type = new TypeModel({
+    const category = new CategoryModel({
       name: req.body.name
     })
 
-    await type.save()
+    await category.save()
 
     res.status(201).json({
       success: true,
-      message: 'Tipe berhasil ditambahkan',
-      data: type,
+      message: 'Kategori berhasil ditambahkan',
+      data: category,
     })
   } catch(err) {
     res.status(400).json({
@@ -55,13 +54,13 @@ exports.addType = async (req, res) => {
   }
 }
 
-exports.updateType = async (req, res) => {
+exports.updateCategory = async (req, res) => {
   try {
     const id = req.params.id
     const data = req.body
 
     // Update data
-    const updateData = await TypeModel.findByIdAndUpdate(id, data, { new: true })
+    const updateData = await CategoryModel.findByIdAndUpdate(id, data, { new: true })
 
     res.status(201).json({
       success: true,
@@ -76,11 +75,11 @@ exports.updateType = async (req, res) => {
   }
 }
 
-exports.deleteType = async (req, res) => {
+exports.deleteCategory = async (req, res) => {
   try {
     const id = req.params.id
 
-    const deleteData = await TypeModel.findByIdAndDelete(id)
+    const deleteData = await CategoryModel.findByIdAndDelete(id)
 
     if(!deleteData) {
       res.status(404).json({
