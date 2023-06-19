@@ -1,9 +1,7 @@
-const TypesModel = require("../models/TypesModel");
-
-exports.getAllTypes = async (req, res) => {
+exports.getAllType = async (req, res) => {
   try {
     // Ngambil semua data dari model
-    const typesData = await TypesModel.find();
+    const typesData = await TypeModel.find();
 
     res.status(200).json({
       success: true,
@@ -20,7 +18,7 @@ exports.getAllTypes = async (req, res) => {
 exports.getType = async (req, res) => {
   try {
     const id = req.params.id;
-    const typeData = await TypesModel.findById(id);
+    const typeData = await TypeModel.findById(id);
 
     res.status(200).json({
       success: true,
@@ -36,7 +34,7 @@ exports.getType = async (req, res) => {
 
 exports.addType = async (req, res) => {
   try {
-    const type = new TypesModel({
+    const type = new TypeModel({
       name: req.body.name,
     });
 
@@ -61,7 +59,7 @@ exports.updateType = async (req, res) => {
     const data = req.body;
 
     // Update data
-    const updateData = await TypesModel.findByIdAndUpdate(id, data, { new: true });
+    const updateData = await TypeModel.findByIdAndUpdate(id, data, { new: true });
 
     res.status(201).json({
       success: true,
@@ -80,7 +78,7 @@ exports.deleteType = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const deleteData = await TypesModel.findByIdAndDelete(id);
+    const deleteData = await TypeModel.findByIdAndDelete(id);
 
     if (!deleteData) {
       res.status(404).json({
