@@ -5,6 +5,7 @@ const connDB = require('./config/db')
 // IMPORT ROUTE
 const TypeRoute = require('./routes/TypeRoute')
 const AuthRoute = require('./routes/AuthRoute')
+const CategoryRoute = require('./routes/CategoryRoute')
 
 // PORT
 const port = 3000
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 app.use(TypeRoute)
 app.use(AuthRoute)
+app.use(CategoryRoute)
 
 app.listen(port, () => {
   console.log('server running on port: ' + port)
