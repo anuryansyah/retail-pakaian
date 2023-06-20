@@ -6,6 +6,8 @@ const connDB = require("./config/db");
 const TypeRoute = require("./routes/TypeRoute");
 const AuthRoute = require("./routes/AuthRoute");
 const CategoryRoute = require("./routes/CategoryRoute");
+const BrandRoute = require("./routes/BrandRoute");
+const SubCategoryRoute = require("./routes/SubCategoryRoute");
 
 // PORT
 const port = 3000;
@@ -25,6 +27,8 @@ app.get("/", (req, res) => {
 app.use(TypeRoute);
 app.use(AuthRoute);
 app.use(CategoryRoute);
+app.use(BrandRoute);
+app.use(SubCategoryRoute);
 
 app.listen(port, () => {
   console.log("server running on port: " + port);
