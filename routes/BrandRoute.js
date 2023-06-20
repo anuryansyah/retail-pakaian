@@ -1,13 +1,14 @@
 const express = require("express");
+const { authToken } = require("../controllers/AuthController");
 
-const { getAllBrands, addBrand, getBrand, updateBrand, deleteBrand } = require("../controllers/BrandController");
+const { getAllBrand, addBrand, getBrand, updateBrand, deleteBrand } = require("../controllers/BrandController");
 
 const router = express.Router();
 
-router.get("/brand", getAllBrands);
-router.get("/brand/:id", getBrand);
-router.post("/brand", addBrand);
-router.put("/brand/:id", updateBrand);
-router.delete("/brand/:id", deleteBrand);
+router.get("/brand", authToken, getAllBrand);
+router.get("/brand/:id", authToken, getBrand);
+router.post("/brand", authToken, addBrand);
+router.put("/brand/:id", authToken, updateBrand);
+router.delete("/brand/:id", authToken, deleteBrand);
 
 module.exports = router;

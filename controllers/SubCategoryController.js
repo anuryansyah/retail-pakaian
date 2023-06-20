@@ -1,12 +1,12 @@
-const BrandModel = require("../models/BrandModel");
+const SubCategoryModel = require("../models/SubCategoryModel");
 
-exports.getAllBrand = async (req, res) => {
+exports.getAllSubCategory = async (req, res) => {
   try {
-    const brandsData = await BrandModel.find();
+    const subCategoriesData = await SubCategoryModel.find().populate("category");
 
     res.status(200).json({
       success: true,
-      data: brandsData,
+      data: subCategoriesData,
     });
   } catch (err) {
     res.status(500).json({
@@ -16,14 +16,14 @@ exports.getAllBrand = async (req, res) => {
   }
 };
 
-exports.getBrand = async (req, res) => {
+exports.getSubCategory = async (req, res) => {
   try {
     const id = req.params.id;
-    const brandData = await BrandModel.findById(id);
+    const dataSubCategory = await SubCategoryModel.findById(id).populate("category");
 
     res.status(200).json({
       success: true,
-      data: brandData,
+      data: dataSubCategory,
     });
   } catch (err) {
     res.status(404).json({
@@ -33,20 +33,19 @@ exports.getBrand = async (req, res) => {
   }
 };
 
-exports.addBrand = async (req, res) => {
+exports.addSubCategory = async (req, res) => {
   try {
-    const brand = new BrandModel({
+    const subCategory = new SubCategoryModel({
       name: req.body.name,
-      email: req.body.email,
-      phone: req.body.phone,
+      category: req.body.category,
     });
 
-    await brand.save();
+    await subCategory.save();
 
     res.status(201).json({
       success: true,
-      message: "Brand berhasil ditambahkan",
-      data: brand,
+      message: "Sub Kategori berhasil ditambahkan",
+      data: subCategory,
     });
   } catch (err) {
     res.status(400).json({
@@ -56,17 +55,17 @@ exports.addBrand = async (req, res) => {
   }
 };
 
-exports.updateBrand = async (req, res) => {
+exports.updateSubCategory = async (req, res) => {
   try {
     const id = req.params.id;
     const data = req.body;
 
-    const updateData = await BrandModel.findByIdAndUpdate(id, data, { new: true });
+    const updateSubCategory = await SubCategoryModel.findByIdAndUpdate(id, data, { new: true }).populate("category");
 
     res.status(201).json({
       success: true,
       message: "Data berhasil diubah",
-      data: updateData,
+      data: updateSubCategory,
     });
   } catch (err) {
     res.status(500).json({
@@ -76,11 +75,11 @@ exports.updateBrand = async (req, res) => {
   }
 };
 
-exports.deleteBrand = async (req, res) => {
+exports.deleteSubCategory = async (req, res) => {
   try {
     const id = req.params.id;
 
-    const deleteData = await BrandModel.findByIdAndDelete(id);
+    const deleteData = await SubCategoryModel.findByIdAndDelete(id).populate("category");
 
     if (!deleteData) {
       res.status(404).json({
