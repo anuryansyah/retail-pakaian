@@ -1,35 +1,37 @@
-const express = require("express");
-const bodyParser = require("body-parser");
+const express = require("express")
+const bodyParser = require("body-parser")
 // IMPORT DB
-const connDB = require("./config/db");
+const connDB = require("./config/db")
 // IMPORT ROUTE
-const TypeRoute = require("./routes/TypeRoute");
-const AuthRoute = require("./routes/AuthRoute");
-const CategoryRoute = require("./routes/CategoryRoute");
-const BrandRoute = require("./routes/BrandRoute");
-const SubCategoryRoute = require("./routes/SubCategoryRoute");
+const TypeRoute = require("./routes/TypeRoute")
+const AuthRoute = require("./routes/AuthRoute")
+const CategoryRoute = require("./routes/CategoryRoute")
+const BrandRoute = require("./routes/BrandRoute")
+const SubCategoryRoute = require("./routes/SubCategoryRoute")
+const ProductRoute = require('./routes/ProductRoute')
 
 // PORT
-const port = 3000;
-const app = express();
+const port = 3000
+const app = express()
 
 // KONEKSI DB
-connDB();
+connDB()
 
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
 app.get("/", (req, res) => {
   res.json({
     message: "Welcome to retail app",
-  });
-});
+  })
+})
 
-app.use(TypeRoute);
-app.use(AuthRoute);
-app.use(CategoryRoute);
-app.use(BrandRoute);
-app.use(SubCategoryRoute);
+app.use(TypeRoute)
+app.use(AuthRoute)
+app.use(CategoryRoute)
+app.use(BrandRoute)
+app.use(SubCategoryRoute)
+app.use(ProductRoute)
 
 app.listen(port, () => {
-  console.log("server running on port: " + port);
-});
+  console.log("server running on port: " + port)
+})
