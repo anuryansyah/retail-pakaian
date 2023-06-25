@@ -2,39 +2,71 @@ const ProductModel = require('../models/ProductModel')
 
 const populateField = ['type', 'brand', 'category', 'subCategory']
 
+function format(datas) {
+  return datas.map(data => {
+    return {
+      id: data.id,
+      name: data.name,
+      desc: data.desc,
+      type: data.type.name,
+      brand: data.brand.name,
+      category: data.category.name,
+      subCategory: data.subCategory.name,
+      stock: data.stock.map(st => {
+        return {
+          size: st.size,
+          qty: st.qty
+        }
+      }),
+      price: data.price,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt
+    }
+  })
+}
+
 exports.getAllProduct = async (req, res) => {
   try {
     const productData = await ProductModel.find().populate(populateField)
 
-    const formatedData = productData.map(product => {
-      return {
-        id: product.id,
-        name: product.name,
-        type: product.type.name,
-        brand: product.brand.name,
-        category: product.category.name,
-        subCategory: product.subCategory.name,
-        stock: product.stock.map(st => {
-          return {
-            size: st.size,
-            qty: st.qty
-          }
-        }),
-        price: product.price,
-        createdAt: product.createdAt,
-        updatedAt: product.updatedAt
-      }
-    })
+    const formatedData = format(productData)
 
     res.status(200).json({
       success: true,
-      // data: productData
       data: formatedData,
     })
   } catch (err) {
     res.status(500).json({
       success: false,
       message: err,
+    })
+  }
+}
+
+exports.searchProduct = async (req, res) => {
+  try {
+    const query = req.query
+    let data
+  
+    if (query.nama) {
+      data = await ProductModel.find({name:{$regex: query.nama, $options: 'i'}}).populate(populateField)
+    } else if (query.kategori) {
+      data = await ProductModel.find({category: query.kategori}).populate(populateField)
+    } else {
+      data = 'data tidak ditemukan'
+    }  
+
+    const formatedData = format(data)
+  
+    res.json({
+      query,
+      data: formatedData,
+    })
+
+  } catch(err) {
+    res.status(404).json({
+      success: false,
+      message: err.message,
     })
   }
 }
