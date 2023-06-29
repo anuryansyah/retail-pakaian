@@ -152,9 +152,11 @@ exports.addOrder = async (req, res) => {
 
     order.save()
 
+    const formatedData = formatedOne(order)
+
     res.status(200).json({
       success: true,
-      data: order
+      data: formatedData,
     })
   } catch (err) {
     res.status(400).json({
