@@ -38,6 +38,12 @@ exports.register = async (req, res) => {
         message: 'Email sudah digunakan',
       })
     }
+    if (password.length < 8) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password harus 8 huruf atau lebih',
+      })
+    }
   
     const hashedPassword = bcrypt.hashSync(password, 12)
 
