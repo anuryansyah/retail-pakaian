@@ -134,10 +134,14 @@ exports.addProduct = async (req, res) => {
 
     await product.save()
 
+    const productData = await ProductModel.findById(product._id).populate(populateField)
+
+    const formatedData = formatOne(productData)
+
     res.status(201).json({
       success: true,
       message: 'Produk berhasil ditambahkan',
-      data: product,
+      data: formatedData,
     })
   } catch (err) {
     res.status(400).json({
