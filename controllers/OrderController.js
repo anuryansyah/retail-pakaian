@@ -122,6 +122,7 @@ exports.addOrder = async (req, res) => {
           success: false,
           message: 'Stok produk tidak mencukupi',
         })
+        return
       }
     })
 
@@ -150,13 +151,11 @@ exports.addOrder = async (req, res) => {
       amount: totalAmount
     })
 
-    order.save()
-
-    const formatedData = formatedOne(order)
+    await order.save()
 
     res.status(200).json({
       success: true,
-      data: formatedData,
+      data: order,
     })
   } catch (err) {
     res.status(400).json({
